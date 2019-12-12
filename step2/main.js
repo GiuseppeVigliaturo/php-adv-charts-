@@ -7,7 +7,12 @@ function printFatturato(type,data) {
       datasets: [
         {
           label: "vendite",
-          data: data
+          data: data,
+          backgroundColor:
+            "rgb(50, 113, 72)",
+            borderColor:
+              "rgb(130, 44, 44)"
+
         }
       ]
     },
