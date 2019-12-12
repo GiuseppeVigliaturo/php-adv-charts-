@@ -1,4 +1,4 @@
-function printChartJsFatturato(type,data) {
+function printFatturato(type,data) {
   var ctx = document.getElementById("fatturato").getContext("2d");
   new Chart(ctx, {
     type: type,
@@ -25,7 +25,7 @@ function printChartJsFatturato(type,data) {
   });
 }
 
-function fatturatoAgent(type, label, data) {
+function printFatturatoAgent(type, label, data) {
   var ctx = document.getElementById("fatturatobyagent").getContext("2d");
   new Chart(ctx, {
     type: type,
@@ -66,7 +66,7 @@ function getDataLine(){
       console.log(data);
       var type = data["fatturato"]["type"];
       var data = Object.values(data["fatturato"]["data"]);
-      printChartJsFatturato(type,data);
+      printFatturato(type,data);
     },
     error: function(err) {
       console.log("error",err);
@@ -86,7 +86,7 @@ function getDataPie(){
       var data = Object.values(data["fatturato_by_agent"]["data"]);
       //con object.values mi prendo i valori associati a ogni nome
       //estraggo direttamente dal file php i parametri che mi servono e li metto in delle variabili
-      fatturatoAgent(
+      printFatturatoAgent(
        type,
        label,
        data
