@@ -1,7 +1,7 @@
-function printChartJsFatturato(data) {
+function printChartJsFatturato(type,data) {
   var ctx = document.getElementById("fatturato").getContext("2d");
   new Chart(ctx, {
-    type: "line",
+    type: type,
     data: {
       labels: moment.months(),
       datasets: [
@@ -64,7 +64,9 @@ function getDataLine(){
     method:'GET',
     success: function(data){
       console.log(data);
-      printChartJsFatturato(data);
+      var type = data["fatturato"]["type"];
+      var data = Object.values(data["fatturato"]["data"]);
+      printChartJsFatturato(type,data);
     },
     error: function(err) {
       console.log("error",err);

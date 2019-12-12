@@ -29,9 +29,7 @@
     <div class="wrapper">
       <canvas id="fatturatobyagent"></canvas>
     </div>
-    <?php
 
-     ?>
 
     </div>
   </body>
