@@ -23,6 +23,9 @@
   </head>
   <body>
 
+    <input type="text" class="my_input">
+  <button class="my_button">CERCA</button>
+
     <div class="wrapper">
       <canvas id="fatturato"></canvas>
     </div>
@@ -33,7 +36,6 @@
       <canvas id="team_efficiency"></canvas>
     </div>
 
-
-    </div>
+  
   </body>
 </html>

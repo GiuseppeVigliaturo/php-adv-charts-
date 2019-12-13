@@ -1,3 +1,9 @@
+const url = window.location; //
+const urlObject = new URL(url);
+const id = urlObject.searchParams.get('level')
+console.log(id)
+
+var input;
 function printFatturato(type,data) {
   var ctx = document.getElementById("fatturato").getContext("2d");
   new Chart(ctx, {
@@ -62,7 +68,7 @@ function printTeam(type,data1,data2,data3) {
   new Chart(canvas, {
     type: type,
     data: {
-      labels: ['1', '2', '3', '4', '5'],
+      labels: moment.months(),
       datasets: [{
         label: 'Team1',
         yAxisID: 'A',
@@ -110,15 +116,21 @@ function printTeam(type,data1,data2,data3) {
 
 
 
-function getDataLine(){
+function getDataLine(id){
   $.ajax ({
     url:"server.php",
+    data:{
+      access:id
+    },
     method:'GET',
     success: function(data){
       console.log(data);
-      var type = data["fatturato"]["type"];
+      var typeline = data["fatturato"]["type"];
+      console.log(typeline);
       var data = Object.values(data["fatturato"]["data"]);
-      printFatturato(type,data);
+
+      // console.log(access);
+      printFatturato(typeline,data);
     },
     error: function(err) {
       console.log("error",err);
@@ -129,19 +141,24 @@ function getDataLine(){
 function getDataPie(){
   $.ajax ({
     url:"server.php",
+    data:{
+      access:id
+    },
     method:'GET',
     success: function(data){
       console.log(data);
-      var type = data["fatturato_by_agent"]["type"];
-      var label = Object.keys(data["fatturato_by_agent"]["data"]);
+      var typepie = data["fatturato_by_agent"]["type"];
+      var labelpie = Object.keys(data["fatturato_by_agent"]["data"]);
       //con object.keys mi prendo i nomi degli agenti
+      var accesspie =  data["fatturato_by_agent"]["access"];
+      console.log(accesspie);
       var data = Object.values(data["fatturato_by_agent"]["data"]);
 
       //con object.values mi prendo i valori associati a ogni nome
       //estraggo direttamente dal file php i parametri che mi servono e li metto in delle variabili
       printFatturatoAgent(
-       type,
-       label,
+       typepie,
+       labelpie,
        data
      );
 
@@ -152,26 +169,30 @@ function getDataPie(){
   })
 }
 
-function getDataTeam(){
+function getDataTeam(input){
   $.ajax ({
     url:"server.php",
+    data:{
+      access:id
+    },
     method:'GET',
     success: function(data){
       console.log("team",data);
+
       var type = data["team_efficiency"]["type"];
+      var access =  data["team_efficiency"]["access"];
+      console.log(access);
       var label = Object.keys(data["team_efficiency"]["data"]);
       console.log("arrayteam",label);
       //con object.keys mi prendo i nomi degli agenti
       var data1 = Object.values(data["team_efficiency"]["data"]['Team1']);
       var data2 = Object.values(data["team_efficiency"]["data"]['Team2']);
       var data3 = Object.values(data["team_efficiency"]["data"]['Team3']);
-      console.log("arraydat",data1);
 
       //con object.values mi prendo i valori associati a ogni nome
       //estraggo direttamente dal file php i parametri che mi servono e li metto in delle variabili
-      printTeam(type,data1,data2,data3);
 
-
+        printTeam(type,data1,data2,data3);
     },
     error: function(err) {
       console.log("error",err);
@@ -179,9 +200,29 @@ function getDataTeam(){
   })
 }
 
+
+function cercaBtnClick() {
+
+  var input = $('.my_input').val();
+  console.log(input);
+
+}
+
 function init() {
-  getDataLine();
-  getDataPie();
-  getDataTeam();
+
+  // $('.my_button').on('click', cercaBtnClick);
+  if (id === 'guest') {
+    getDataLine(id);
+    getDataPie();
+    getDataTeam();
+  }else if (id === 'employee') {
+    getDataPie();
+    getDataTeam();
+  }else if (id === 'clevel') {
+    getDataTeam();
+  }
+
+
+
 }
 $(document).ready(init);
