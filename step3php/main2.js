@@ -1,6 +1,3 @@
-
-
-var input;
 function printFatturato(type,data) {
   var ctx = document.getElementById("fatturato").getContext("2d");
   new Chart(ctx, {
@@ -122,10 +119,6 @@ function getData(level){
     method:'GET',
     success: function(data){
       console.log(data);
-
-    
-
-
     },
     error: function(err) {
       console.log("error",err);
@@ -143,6 +136,7 @@ function init() {
   console.log(level);
 
  getData(level);
+
 
 }
 $(document).ready(init);

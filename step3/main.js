@@ -116,7 +116,7 @@ function printTeam(type,data1,data2,data3) {
 
 
 
-function getDataLine(liv){
+function getDataLine(){
   $.ajax ({
     url:"server.php",
     // data:{
@@ -172,7 +172,7 @@ function getDataPie(){
 function getDataTeam(){
   $.ajax ({
     url:"server.php",
-    
+
     method:'GET',
     success: function(data){
       console.log("team",data);
@@ -202,9 +202,8 @@ function getDataTeam(){
 
 function init() {
 
-  // $('.my_button').on('click', cercaBtnClick);
   if (id === 'guest') {
-    getDataLine(id);
+    getDataLine();
     getDataPie();
     getDataTeam();
   }else if (id === 'employee') {
