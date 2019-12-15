@@ -1,7 +1,7 @@
-const url = window.location; //
-const urlObject = new URL(url);
-const id = urlObject.searchParams.get('level')
-console.log(id)
+var url = window.location; //
+var urlObject = new URL(url);
+var id = urlObject.searchParams.get('level')
+console.log(id);
 
 var input;
 function printFatturato(type,data) {
@@ -116,12 +116,12 @@ function printTeam(type,data1,data2,data3) {
 
 
 
-function getDataLine(id){
+function getDataLine(liv){
   $.ajax ({
     url:"server.php",
-    data:{
-      access:id
-    },
+    // data:{
+    //   access:liv
+    // },
     method:'GET',
     success: function(data){
       console.log(data);
@@ -141,9 +141,9 @@ function getDataLine(id){
 function getDataPie(){
   $.ajax ({
     url:"server.php",
-    data:{
-      access:id
-    },
+    // data:{
+    //   access:id
+    // },
     method:'GET',
     success: function(data){
       console.log(data);
@@ -169,12 +169,10 @@ function getDataPie(){
   })
 }
 
-function getDataTeam(input){
+function getDataTeam(){
   $.ajax ({
     url:"server.php",
-    data:{
-      access:id
-    },
+    
     method:'GET',
     success: function(data){
       console.log("team",data);
@@ -201,12 +199,6 @@ function getDataTeam(input){
 }
 
 
-function cercaBtnClick() {
-
-  var input = $('.my_input').val();
-  console.log(input);
-
-}
 
 function init() {
 

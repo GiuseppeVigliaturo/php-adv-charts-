@@ -19,7 +19,7 @@
     <!-- CSS: MY STYLE -->
     <link rel="stylesheet" href="style.css">
     <!-- JS: MY SCRIPT -->
-    <script src="main.js" charset="utf-8"></script>
+    <script src="main2.js" charset="utf-8"></script>
   </head>
   <body>
 

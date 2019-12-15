@@ -1,0 +1,20 @@
+<?php
+header('Content-Type: application/json');
+include 'databasetre.php';
+
+$level = $_GET['level'];
+$result=[];
+
+ if ($level == $graphs['fatturato_by_agent']['access']) {
+    $result[] = $graphs['fatturato_by_agent'];
+    $result[] = $graphs['fatturato'];
+} else if ($level == $graphs['team_efficiency']['access']) {
+    $result[] = $graphs['fatturato_by_agent'];
+    $result[] = $graphs['team_efficiency'];
+    $result[] = $graphs['fatturato'];
+}else {
+    $result[] = $graphs['fatturato'];
+}
+
+echo json_encode($result);
+ ?>
