@@ -3,8 +3,10 @@ var urlObject = new URL(url);
 var id = urlObject.searchParams.get('level')
 console.log(id);
 
-var input;
-function printFatturato(type,data) {
+function printFatturato(data) {
+  var type = data["fatturato"]["type"];
+  console.log(type);
+  var data = Object.values(data["fatturato"]["data"]);
   var ctx = document.getElementById("fatturato").getContext("2d");
   new Chart(ctx, {
 
@@ -33,7 +35,12 @@ function printFatturato(type,data) {
   });
 }
 
-function printFatturatoAgent(type, label, data) {
+function printFatturatoAgent(data) {
+  var type = data["fatturato_by_agent"]["type"];
+  var label = Object.keys(data["fatturato_by_agent"]["data"]);
+  var accesspie =  data["fatturato_by_agent"]["access"];
+  console.log(accesspie);
+  var data = Object.values(data["fatturato_by_agent"]["data"]);
   var ctx = document.getElementById("fatturatobyagent").getContext("2d");
   new Chart(ctx, {
     type: type,
@@ -63,7 +70,15 @@ function printFatturatoAgent(type, label, data) {
   });
 }
 
-function printTeam(type,data1,data2,data3) {
+function printTeam(data) {
+  var type = data["team_efficiency"]["type"];
+  var access =  data["team_efficiency"]["access"];
+  console.log(access);
+  var label = Object.keys(data["team_efficiency"]["data"]);
+  console.log("arrayteam",label);
+  var data1 = Object.values(data["team_efficiency"]["data"]['Team1']);
+  var data2 = Object.values(data["team_efficiency"]["data"]['Team2']);
+  var data3 = Object.values(data["team_efficiency"]["data"]['Team3']);
   var canvas = document.getElementById('team_efficiency').getContext("2d");
   new Chart(canvas, {
     type: type,
@@ -119,18 +134,11 @@ function printTeam(type,data1,data2,data3) {
 function getDataLine(){
   $.ajax ({
     url:"server.php",
-    // data:{
-    //   access:liv
-    // },
+
     method:'GET',
     success: function(data){
       console.log(data);
-      var typeline = data["fatturato"]["type"];
-      console.log(typeline);
-      var data = Object.values(data["fatturato"]["data"]);
-
-      // console.log(access);
-      printFatturato(typeline,data);
+      printFatturato(data);
     },
     error: function(err) {
       console.log("error",err);
@@ -141,27 +149,10 @@ function getDataLine(){
 function getDataPie(){
   $.ajax ({
     url:"server.php",
-    // data:{
-    //   access:id
-    // },
     method:'GET',
     success: function(data){
       console.log(data);
-      var typepie = data["fatturato_by_agent"]["type"];
-      var labelpie = Object.keys(data["fatturato_by_agent"]["data"]);
-      //con object.keys mi prendo i nomi degli agenti
-      var accesspie =  data["fatturato_by_agent"]["access"];
-      console.log(accesspie);
-      var data = Object.values(data["fatturato_by_agent"]["data"]);
-
-      //con object.values mi prendo i valori associati a ogni nome
-      //estraggo direttamente dal file php i parametri che mi servono e li metto in delle variabili
-      printFatturatoAgent(
-       typepie,
-       labelpie,
-       data
-     );
-
+      printFatturatoAgent(data);
     },
     error: function(err) {
       console.log("error",err);
@@ -172,25 +163,10 @@ function getDataPie(){
 function getDataTeam(){
   $.ajax ({
     url:"server.php",
-
     method:'GET',
     success: function(data){
       console.log("team",data);
-
-      var type = data["team_efficiency"]["type"];
-      var access =  data["team_efficiency"]["access"];
-      console.log(access);
-      var label = Object.keys(data["team_efficiency"]["data"]);
-      console.log("arrayteam",label);
-      //con object.keys mi prendo i nomi degli agenti
-      var data1 = Object.values(data["team_efficiency"]["data"]['Team1']);
-      var data2 = Object.values(data["team_efficiency"]["data"]['Team2']);
-      var data3 = Object.values(data["team_efficiency"]["data"]['Team3']);
-
-      //con object.values mi prendo i valori associati a ogni nome
-      //estraggo direttamente dal file php i parametri che mi servono e li metto in delle variabili
-
-        printTeam(type,data1,data2,data3);
+        printTeam(data);
     },
     error: function(err) {
       console.log("error",err);
@@ -204,16 +180,15 @@ function init() {
 
   if (id === 'guest') {
     getDataLine();
-    getDataPie();
-    getDataTeam();
+
   }else if (id === 'employee') {
     getDataPie();
     getDataTeam();
   }else if (id === 'clevel') {
+    getDataLine();
+    getDataPie();
     getDataTeam();
   }
-
-
 
 }
 $(document).ready(init);

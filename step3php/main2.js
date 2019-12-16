@@ -1,4 +1,7 @@
-function printFatturato(type,data) {
+function printFatturato(data) {
+  var type = data[0]["type"];
+  console.log(type);
+  var data = Object.values(data[0]["data"]);
   var ctx = document.getElementById("fatturato").getContext("2d");
   new Chart(ctx, {
 
@@ -27,7 +30,14 @@ function printFatturato(type,data) {
   });
 }
 
-function printFatturatoAgent(type, label, data) {
+function printFatturatoAgent(data) {
+  var type = data[1]["type"];
+  var label = Object.keys(data[1]["data"]);
+  console.log(label);
+  var accesspie =  data[1]["access"];
+  console.log(accesspie);
+  var data = Object.values(data[1]["data"]);
+  var ctx = document.getElementById("fatturatobyagent").getContext("2d");
   var ctx = document.getElementById("fatturatobyagent").getContext("2d");
   new Chart(ctx, {
     type: type,
@@ -57,7 +67,18 @@ function printFatturatoAgent(type, label, data) {
   });
 }
 
-function printTeam(type,data1,data2,data3) {
+function printTeam(data) {
+  var type = data[2]["type"];
+  var access =  data[2]["access"];
+  console.log(access);
+  var label = Object.keys(data[2]["data"]);
+  console.log("arrayteam",label);
+  var data1 = Object.values(data[2]["data"]['Team1']);
+  var data2 = Object.values(data[2]["data"]['Team2']);
+  var data3 = Object.values(data[2]["data"]['Team3']);
+
+
+
   var canvas = document.getElementById('team_efficiency').getContext("2d");
   new Chart(canvas, {
     type: type,
@@ -119,6 +140,17 @@ function getData(level){
     method:'GET',
     success: function(data){
       console.log(data);
+
+      if (level == 'guest') {
+        printFatturato(data);
+      }else if (level == 'employee') {
+        printFatturato(data);
+        printFatturatoAgent(data);
+      }else {
+        printFatturato(data);
+        printFatturatoAgent(data);
+        printTeam(data);
+      }
     },
     error: function(err) {
       console.log("error",err);
@@ -126,16 +158,13 @@ function getData(level){
   })
 }
 
-
-
 function init() {
 
   var url = window.location; //
   var urlObject = new URL(url);
   var level = urlObject.searchParams.get('level')
   console.log(level);
-
- getData(level);
+  getData(level);
 
 
 }
